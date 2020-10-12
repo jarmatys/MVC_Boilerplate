@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewData["Title"] = "Szczegóły użytkownika";
+    var roles = ViewData["roles"] as List<string>;
+    var user = ViewData["user"] as User;
+}
+
+<div class="jumbotron text-center">
+    <div class="container">
+        <h1 class="display-4">Szczegóły użytkownika <strong>@user.UserName</strong></h1>
+    </div>
+</div>
+
+
+<div class="row justify-content-center">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr style="background-color: lightgray">
+                    <th scope="col">Właściwość</th>
+                    <th scope="col">Wartość</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>ID</th>
+                    <th>@user.Id</th>
+                </tr>
+                <tr>
+                    <th>E-mail</th>
+                    <th>@user.Email</th>
+                </tr>
+                <tr>
+                    <th>Login</th>
+                    <th>@user.UserName</th>
+                </tr>
+                <tr>
+                    <th>Imię</th>
+                    <th>@user.Name</th>
+                </tr>
+                <tr>
+                    <th>Nazwisko</th>
+                    <th>@user.Surname</th>
+                </tr>
+                <tr>
+                    <th>Role</th>
+                    <th>
+                        @if (roles.Count == 0)
+                        {
+                            <span class="text-danger">Brak uprawnień</span>
+                        }
+                        else
+                        {
+                            @foreach (var role in roles)
+                            {
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <p class="text-success">
+                                            @role
+                                        </p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a class="btn btn-danger btn-sm" href="@Url.Action("DeleteRoleFromUser", "Account",new { UserId = user.Id, RoleId = role })" role="button">Usuń</a>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

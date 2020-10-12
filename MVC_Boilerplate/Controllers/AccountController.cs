@@ -146,7 +146,7 @@ namespace MVC_Boilerplate.Controllers
 
             var user = await _userManager.FindByIdAsync(Id);
 
-            if(user == null)
+            if (user == null)
             {
                 return RedirectToAction("UsersList");
             }
@@ -174,6 +174,44 @@ namespace MVC_Boilerplate.Controllers
             return RedirectToAction("UsersList");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> UserDetails(string Id)
+        {
+            if (string.IsNullOrEmpty(Id))
+            {
+                return RedirectToAction("UsersList");
+            }
+
+            var user = await _userManager.FindByIdAsync(Id);
+
+            if (user == null)
+            {
+                return RedirectToAction("UsersList");
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            ViewData["roles"] = roles;
+            ViewData["user"] = user;
+
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteRoleFromUser(RoleToUserView result)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(result);
+            }
+
+            var user = await _userManager.FindByIdAsync(result.userId);
+            var role = await _roleManager.FindByNameAsync(result.roleId);
+
+            await _userManager.RemoveFromRoleAsync(user, role.Name);
+
+            return RedirectToAction("UserDetails", new { Id = user.Id });
+        }
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
