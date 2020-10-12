@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVC_Boilerplate.Models.Db.Account;
 using MVC_Boilerplate.Models.View.Account;
 
@@ -14,11 +15,13 @@ namespace MVC_Boilerplate.Controllers
         // Zaleśności do logowania i rejestracji użytkowników
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -77,6 +80,60 @@ namespace MVC_Boilerplate.Controllers
 
             }
             return View(result);
+        }
+
+        // Role
+
+        [HttpGet]
+        public async Task<IActionResult> RolesList()
+        {
+            var roles = await _roleManager.Roles?.ToListAsync();
+            return View(roles);
+        }
+
+        [HttpGet]
+        public IActionResult AddRole()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddRole(RoleView result)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(result);
+            }
+
+            var role = new IdentityRole();
+            role.Name = result.Name;
+            await _roleManager.CreateAsync(role);
+
+            return RedirectToAction("RolesList");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteRole(string Id)
+        {
+            if (string.IsNullOrEmpty(Id))
+            {
+                return RedirectToAction("RolesList");
+            }
+
+            var role = await _roleManager.FindByIdAsync(Id);
+
+            await _roleManager.DeleteAsync(role);
+
+            return RedirectToAction("RolesList");
+        }
+
+        // Użytkownicy
+
+        [HttpGet]
+        public async Task<IActionResult> UsersList()
+        {
+            var users = await _userManager.Users?.ToListAsync();
+            return View(users);
         }
 
         [HttpGet]

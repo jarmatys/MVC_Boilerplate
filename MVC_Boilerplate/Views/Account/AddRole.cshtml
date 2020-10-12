@@ -1,0 +1,26 @@
+﻿@model RoleView
+
+@{
+    ViewData["Title"] = "Dodaj role";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 ">
+
+        @using (Html.BeginForm("AddRole", "Account", FormMethod.Post, new { @class = "form-signin" }))
+        {
+            <div class="text-center mb-4">
+                <h1 class="h3 mb-3 font-weight-normal">Dodaj role</h1>
+            </div>
+
+            @Html.ValidationSummary()
+
+            <div class="form-label-group">
+                <label for="inputName">Nazwa</label>
+                @Html.TextBoxFor(x => x.Name, new { @placeholder = "Nazwa", @class = "form-control", @id = "inputName" })
+            </div>
+
+            <button class="btn btn-primary btn-block mt-4" type="submit">Dodaj role</button>
+        }
+    </div>
+</div>
