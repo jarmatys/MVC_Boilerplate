@@ -87,6 +87,17 @@ namespace MVC_Boilerplate.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("MVC_Boilerplate.Models.Db.Home.HomeModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Homes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")

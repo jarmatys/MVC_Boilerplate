@@ -50,6 +50,18 @@ namespace MVC_Boilerplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Homes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Homes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -209,6 +221,9 @@ namespace MVC_Boilerplate.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Homes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

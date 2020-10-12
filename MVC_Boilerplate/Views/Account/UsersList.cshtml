@@ -6,15 +6,10 @@
 
 <div class="jumbotron text-center">
     <div class="container">
-        <h1 class="display-4">Lista ról w systemie</h1>
+        <h1 class="display-4">Lista użytkowników w systemie</h1>
     </div>
 </div>
 
-<div class="row mb-4">
-    <div class="col-md-12">
-        <a class="btn btn-primary" href="@Url.Action("AddRole", "Account")" role="button">Dodaj role</a>
-    </div>
-</div>
 
 <div class="row justify-content-center">
     <div class="col-md-12">
@@ -22,26 +17,31 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Rola</th>
+                    <th scope="col">Login</th>
+                    <th scope="col">E-mail</th>
                     <th scope="col">Akcje</th>
                 </tr>
             </thead>
             <tbody>
                 @if (Model.Count() != 0)
                 {
-                    foreach (var role in Model)
+                    foreach (var user in Model)
                     {
                         <tr>
-                            <th scope="row">@role.Id</th>
-                            <td>@role.Name</td>
-                            <td><a class="btn btn-danger btn-sm" href="@Url.Action("DeleteRole", "Account",new { Id = role.Id })" role="button">Usuń</a></td>
+                            <th scope="row">@user.Id</th>
+                            <td>@user.UserName</td>
+                            <td>@user.Email</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" href="@Url.Action("AddUserToRole", "Account",new { Id = user.Id })" role="button">Dodaj rolę</a>
+                                <a class="btn btn-secondary btn-sm" href="@Url.Action("UserDetails", "Account",new { Id = user.Id })" role="button">Szczegóły</a>
+                            </td>
                         </tr>
                     }
                 }
                 else
                 {
                     <tr>
-                        <th colspan="2">Brak ról w systemie</th>
+                        <th colspan="4">Brak użytkowników w systemie</th>
                     </tr>
                 }
             </tbody>

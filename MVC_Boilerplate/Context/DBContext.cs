@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MVC_Boilerplate.Models.Db.Account;
 using MVC_Boilerplate.Models.Db.Home;
@@ -19,7 +20,7 @@ namespace MVC_Boilerplate.Context
         // Zaślepka na klasę bazową
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
+            base.OnModelCreating(builder);           
         }
     }
 }

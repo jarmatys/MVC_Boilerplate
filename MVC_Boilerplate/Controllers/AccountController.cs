@@ -132,8 +132,46 @@ namespace MVC_Boilerplate.Controllers
         [HttpGet]
         public async Task<IActionResult> UsersList()
         {
-            var users = await _userManager.Users?.ToListAsync();
+            var users = await _userManager.Users.ToListAsync();
             return View(users);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddUserToRole(string Id)
+        {
+            if (string.IsNullOrEmpty(Id))
+            {
+                return RedirectToAction("UsersList");
+            }
+
+            var user = await _userManager.FindByIdAsync(Id);
+
+            if(user == null)
+            {
+                return RedirectToAction("UsersList");
+            }
+
+            ViewData["User"] = user;
+            ViewData["Roles"] = await _roleManager.Roles?.ToListAsync();
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddUserToRole(RoleToUserView result)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(result);
+            }
+
+            var user = await _userManager.FindByIdAsync(result.userId);
+            var role = await _roleManager.FindByIdAsync(result.roleId);
+
+            await _userManager.AddToRoleAsync(user, role.Name);
+
+            return RedirectToAction("UsersList");
         }
 
         [HttpGet]
