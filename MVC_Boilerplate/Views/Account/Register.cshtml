@@ -1,0 +1,44 @@
+﻿@model RegisterView
+
+@{
+    ViewData["Title"] = "Rejestracja";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 ">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-signin" }))
+        {
+            <div class="text-center mb-4">
+                <h1 class="h3 mb-3 font-weight-normal">Rejestracja</h1>
+            </div>
+
+            @Html.ValidationSummary()
+
+            <div class="form-label-group">
+                <label for="inputLogin">Login</label>
+                @Html.TextBoxFor(x => x.Login, new { @placeholder = "Login", @class = "form-control", @id = "inputLogin" })
+            </div>
+
+            <div class="form-label-group">
+                <label for="inputEmail">Email address</label>
+                @Html.TextBoxFor(x => x.Email, new { @placeholder = "Adres e-mail", @class = "form-control", @id = "inputEmail" })
+            </div>
+
+            <div class="form-label-group">
+                <label for="inputPassword">Hasło</label>
+                @Html.PasswordFor(x => x.Password, new { @placeholder = "Hasło", @class = "form-control", @id = "inputPassword" })
+            </div>
+
+            <div class="form-label-group">
+                <label for="inputRepeatPassword">Hasło</label>
+                @Html.PasswordFor(x => x.RepeatPassword, new { @placeholder = "Potwierdź hasło", @class = "form-control", @id = "inputRepeatPassword" })
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Rejestruj</button>
+            </div>
+        }
+    </div>
+</div>
+
+
